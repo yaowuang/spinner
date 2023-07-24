@@ -45,11 +45,7 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
             <div class="pb-2 flex justify-end">
                 <RiSystemCloseFill
                     size="18px"
-                    class="bg-red-400 hover:bg-red-700"
-                    style={{
-                        border: "1px solid black",
-                        "border-radius": "4px",
-                    }}
+                    class="bg-red-400 hover:bg-red-700 text-white border-red-400 hover:border-red-700 border-2 rounded-md"
                     onclick={() => {
                         setShowSettings(false);
                     }}
