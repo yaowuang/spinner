@@ -1,10 +1,11 @@
 // src/ColorWheelPicker.tsx
-import { Accessor, Component, createEffect, createRoot, createSignal, onCleanup, Setter } from 'solid-js';
+import { Accessor, Component, createEffect, createSignal, Setter } from 'solid-js';
 import { FaSolidGear } from 'solid-icons/fa'
 import { ImArrowLeft } from 'solid-icons/im'
 import { cubicOut } from 'eases'; // Importing the Bézier curve easing function
 import { useSearchParams } from "@solidjs/router";
 import { OptionForm } from './OptionForm';
+import { ConfettiExplosion } from 'solid-confetti-explosion';
 
 export interface OptionType {
   label: string;
@@ -33,7 +34,7 @@ interface ColorBoardProps {
 const ColorWheelBoard: Component<ColorBoardProps> = (props: ColorBoardProps) => {
   const { options, radius } = props
   const [conicGradient, setConicGradient] = createSignal("")
-
+  
   createEffect(() => {
     const sectorDeg = 360 / options().length
     setConicGradient(options().length > 0 ? `conic-gradient(
@@ -103,6 +104,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
   const [showSettings, setShowSettings] = createSignal(false);
   const [urlParams, setUrlParams] = useSearchParams();
   const [winnerList, setWinnerList] = createSignal([] as string[])
+  const [showConfetti, setShowConfetti] = createSignal(false)
 
   createEffect(() => {
     const urlLabels = urlParams.labels && urlParams.labels.split(",")
@@ -128,6 +130,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
   })
 
   const handleAnimatedSpin = () => {
+    console.log(showConfetti())
     if (isSpinning()) return; // Prevent multiple spins before the animation completes
 
     const minSpin = 5;
@@ -143,7 +146,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
 
     const startTime = Date.now();
 
-    const animateSpin = () => {
+    const animateSpin = async () => {
       const currentTime = Date.now();
       const elapsed = currentTime - startTime;
 
@@ -168,8 +171,9 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
 
         // Update the current rotation to the new accumulated rotation
         setCurrentRotation(endRotation);
-
         setIsSpinning(false);
+        setShowConfetti(true);
+        await setTimeout(() => {setShowConfetti(false)}, 3000)
       }
     };
 
@@ -251,6 +255,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         </button>
       </div>
       </div>}
+      <div id="confetti" class="absolute top-0 left-0 h-[600px] w-full" hidden={!showConfetti()}>{showConfetti() && (<div class="flex"><ConfettiExplosion duration={3000} stageWidth={3200} /><ConfettiExplosion duration={2000} force={0.3} stageWidth={3200}/></div>)}</div>
     </div>
   );
 };

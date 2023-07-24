@@ -3,6 +3,8 @@ import { Component, createSignal } from 'solid-js';
 import { ColorWheelPicker } from './components/ColorWheelPicker';
 
 const App: Component = () => {
+
+
 	const [pageTitle, setPageTitle] = createSignal("Random Color Wheel Picker")
 		return (
 			<Router>
