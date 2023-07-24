@@ -63,6 +63,7 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
                         setUrlParams({ labels: "", title: null});
                         setAddLabel("")
                         setPageTitle("Random Color Wheel Picker")
+                        document.title = "Random Color Wheel Picker"
                     }}
                 >
                     Reset
@@ -80,6 +81,7 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
                         onChange={(e)=>{
                             setPageTitle(e.target.value)
                             setUrlParams({...urlParams, title: e.target.value})
+                            document.title = e.target.value
                         }}
                     />
 

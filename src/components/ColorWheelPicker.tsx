@@ -117,6 +117,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
     const urlTitle = urlParams.title
     if (urlTitle) {
       setPageTitle(urlTitle)
+      document.title=(urlTitle)
     }
   })
 
