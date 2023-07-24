@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@solidjs/router": "^0.8.2",
+    "@vercel/analytics": "^1.0.1",
     "eases": "^1.0.8",
     "solid-confetti-explosion": "^1.1.6",
     "solid-icons": "^1.0.11",
