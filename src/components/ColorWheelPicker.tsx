@@ -121,6 +121,12 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
     }
   })
 
+  createEffect(() => {
+    if (optionsList().length == 0) {
+      setShowSettings(true)
+    }
+  })
+
   const handleAnimatedSpin = () => {
     if (isSpinning()) return; // Prevent multiple spins before the animation completes
 
