@@ -6,7 +6,7 @@ import { cubicOut } from 'eases'; // Importing the Bézier curve easing function
 import { useSearchParams } from "@solidjs/router";
 import { OptionForm } from './OptionForm';
 import { ConfettiExplosion } from 'solid-confetti-explosion';
-import { RiSystemCloseFill, RiSystemDeleteBin5Line } from 'solid-icons/ri';
+import { RiSystemCloseFill } from 'solid-icons/ri';
 
 interface ColorWheelPickerProps {
   pageTitle: Accessor<string>,
@@ -192,7 +192,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         {/* Color Wheel */}
         <ColorWheelBoard options={optionsList} radius={radius} />
         <ImArrowLeft
-          class="absolute right-0 top-1/2 fill-red-500"
+          class="absolute -right-4 top-1/2 fill-red-500 stroke-yellow-400 stroke-1"
           style={{ transform: "translate(0, -50%)" }}
           size="40px"
         />
