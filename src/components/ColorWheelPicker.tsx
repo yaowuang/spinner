@@ -7,6 +7,7 @@ import { useSearchParams } from "@solidjs/router";
 import { OptionForm } from './OptionForm';
 import { ConfettiExplosion } from 'solid-confetti-explosion';
 import { RiSystemCloseFill } from 'solid-icons/ri';
+import { FaSolidQuestion } from 'solid-icons/fa'
 
 interface ColorWheelPickerProps {
   pageTitle: Accessor<string>,
@@ -92,8 +93,6 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
   const { pageTitle, setPageTitle } = props
   const [optionsList, setOptionsList] = createSignal([] as string[]);
   const radius = 200; // adjust the radius based on your preference
-  const totalOptions = optionsList().length;
-  const anglePerOption = 360 / totalOptions;
   const [currentRotation, setCurrentRotation] = createSignal(0);
 
   const [selectedOption, setSelectedOption] = createSignal<string | null>(null);
@@ -103,6 +102,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
   const [urlParams, setUrlParams] = useSearchParams();
   const [winnerList, setWinnerList] = createSignal([] as string[])
   const [showConfetti, setShowConfetti] = createSignal(false)
+  const [showHelp, setShowHelp] = createSignal(false);
 
   const handleDeleteOption = (e: Event, index: number) => {
     var newList = optionsList()
@@ -196,7 +196,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           style={{ transform: "translate(0, -50%)" }}
           size="40px"
         />
-        <div class="absolute right-0 top-0 border-2 rounded-md fill-white border-blue-500 p-1 bg-blue-500 hover:border-blue-700 hover:bg-blue-700">
+        <div class="absolute right-0 top-0 border-2 rounded-md fill-white border-blue-500 p-1 bg-blue-500 hover:border-blue-700 hover:bg-blue-700" title="configure color wheel">
           <FaSolidGear
             size="40px"
             onclick={() => {
@@ -205,7 +205,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           />
         </div>
       </div>
-      <div class="grid justify-center place-items-center">
+      <div class="grid justify-center place-items-center" title="Spin the Wheel">
         {/* Spin Button */}
         <button
           onClick={() => {
@@ -267,7 +267,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           })}
         </ul>
         <hr />
-        <div class="flex justify-end">
+        <div class="flex justify-end" title="Clear history list">
           <button
             class="my-2 px-2 rounded-md border-2 border-blue-500 bg-blue-500 text-white hover:bg-blue-700  hover:border-blue-700"
             onClick={(e) => {
@@ -279,6 +279,34 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         </div>
       </div>}
       <div id="confetti" class="absolute top-0 left-0 h-full w-full overflow-hidden" hidden={!showConfetti()}>{showConfetti() && (<div class="flex"><ConfettiExplosion duration={3000} stageWidth={3200} /><ConfettiExplosion duration={2000} force={0.3} stageWidth={3200} /></div>)}</div>
+      { showHelp() ?
+      <div id="help" class="absolute top-10 right-10 border-2 rounded-md shadow-lg w-[250px] p-4">
+        <div class="grid grid-cols-2 w-full">
+        <h2 class="text-lg">Information</h2>
+        <div class="pb-2 flex justify-end">
+                <RiSystemCloseFill
+                    size="18px"
+                    class="bg-red-400 hover:bg-red-700 text-white border-red-400 hover:border-red-700 border-2 rounded-md"
+                    onclick={() => {
+                        setShowHelp(false);
+                    }}
+                />
+            </div>
+        </div>
+        <hr />
+        <div class="text-sm">
+        <p class="text-sm">This color wheel was designed with teachers and classrooms in mind. After configuring your color wheel, you can bookmark it. No settings are saved on our server. Opening the bookmark will open this page with the settings at the time of bookmarking.</p>
+        <p>Since this is expected to be used in classrooms, this application will stay ad free, and no data will be collected by our servers other than visits counts. If you enjoy using this and support its ideals, you can show your support by <a class="text-blue-500 hover:text-blue-700" href="https://www.buymeacoffee.com/sslidss">buying the developer a coffee!</a></p>
+        </div>
+      </div> : <div class="absolute top-10 right-10">
+        <button
+        onclick={() => {
+          setShowHelp(true);
+        }}
+      >
+        <div class="border-2 rounded-md p-2 bg-green-500 fill-white border-green-500 hover:border-green-700 hover:bg-green-700">
+          <FaSolidQuestion /></div></button></div>
+    }
     </div>
   );
 };
