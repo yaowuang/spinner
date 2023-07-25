@@ -75,7 +75,7 @@ const ColorWheelBoard: Component<ColorBoardProps> = (props: ColorBoardProps) => 
             }}
           >
             <div class="w-full h-1/2 flex items-center justify-center rounded-full">
-              <span class={`text-black`}>
+              <span class={`text-black truncate w-40`} title={option}>
                 {option}
               </span>
             </div>
@@ -263,7 +263,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         <hr />
         <ul class={`list-decimal list-inside ${(winnerList().length > 25) ? "text-xs": "text-sm"}`}>
           {winnerList().map((winner) => {
-            return (<li>{winner}</li>)
+            return (<li class="truncate" title={winner}>{winner}</li>)
           })}
         </ul>
         <hr />
