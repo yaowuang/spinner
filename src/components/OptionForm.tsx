@@ -1,12 +1,12 @@
 import { Accessor, Component, createEffect, createSignal, Setter } from "solid-js";
 import { RiSystemCloseFill, RiSystemDeleteBin5Line } from 'solid-icons/ri'
-import { Colors, OptionType } from "./ColorWheelPicker";
+import { Colors } from "./ColorWheelPicker";
 import { NavigateOptions, Params, SetParams } from "@solidjs/router";
 import { FaSolidPlus } from 'solid-icons/fa'
 
 interface OptionFormProps {
-    optionsList: Accessor<OptionType[]>;
-    setOptionsList: Setter<OptionType[]>;
+    optionsList: Accessor<string[]>;
+    setOptionsList: Setter<string[]>;
     setShowSettings: Setter<boolean>;
     urlParams: Params,
     setUrlParams: (params: SetParams, options?: Partial<NavigateOptions<unknown>> | undefined) => void
@@ -22,11 +22,8 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
 
     const handleAddOption = (e: Event) => {
         if (addLabel()) {
-            const entry: OptionType = {
-                label: addLabel(),
-            };
             const labelParams = (urlParams.labels ? (urlParams.labels + ",") : "") + addLabel();
-            setOptionsList([...optionsList(), entry]);
+            setOptionsList([...optionsList(), addLabel()]);
             setUrlParams({ labels: labelParams })
             setAddLabel("");
         }
@@ -36,7 +33,7 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
         var newList = optionsList()
         newList.splice(index,1)
         setOptionsList([...newList])
-        const labelParams = newList.map((item) => { return item.label}).join(",") 
+        const labelParams = newList.join(",") 
         setUrlParams({ labels: labelParams})
     }
 
@@ -94,10 +91,10 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
                     </thead>
                     <tbody>
                         {optionsList() ?
-                            optionsList().map((option: OptionType, index: number) => {
+                            optionsList().map((option: string, index: number) => {
                                 return (
                                     <tr class="h-8">
-                                        <td class="px-4">{option.label}</td>
+                                        <td class="px-4">{option}</td>
                                         <td><div class="w-full h-6 rounded-md border-2" style={{ background: Colors[Object.keys(Colors)[index % Object.keys(Colors).length] as keyof typeof Colors] || "transparent" }}></div></td>
                                         <td><div class="grid align-middle"><button
                                         onClick={(e) => {
