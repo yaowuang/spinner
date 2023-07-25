@@ -172,7 +172,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         const selectedOptionLabel = optionsList()[sectorIndex] || null;
         setSelectedOption(selectedOptionLabel);
         SetSelectedOptionIndex(sectorIndex)
-        setWinnerList([selectedOptionLabel!, ...winnerList()].splice(0, 30));
+        setWinnerList([selectedOptionLabel!, ...winnerList()].splice(0, 35));
 
         // Update the current rotation to the new accumulated rotation
         setCurrentRotation(endRotation);
@@ -256,9 +256,9 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         />
       </div>
       {winnerList().length > 0 && <div class="absolute top-10 left-10 border-2 w-[200px] p-2 rounded-md">
-        <p class="text-lg">History (Last 30)</p>
+        <p class="text-lg">History (Last 35)</p>
         <hr />
-        <ul class="list-decimal list-inside text-sm">
+        <ul class="list-decimal list-inside">
           {winnerList().map((winner) => {
             return (<li>{winner}</li>)
           })}
