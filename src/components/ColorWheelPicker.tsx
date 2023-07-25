@@ -196,9 +196,8 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           style={{ transform: "translate(0, -50%)" }}
           size="40px"
         />
-        <div class="absolute right-0 top-0">
+        <div class="absolute right-0 top-0 border-2 rounded-md fill-white border-blue-500 p-1 bg-blue-500 hover:border-blue-700 hover:bg-blue-700">
           <FaSolidGear
-            class={"fill-blue-500 hover:fill-blue-700"}
             size="40px"
             onclick={() => {
               setShowSettings(true);
@@ -219,11 +218,14 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           Spin the Wheel
         </button>
         {/* Selected Option */}
-        {selectedOption() && !isSpinning() && (
+        {
+        selectedOption() && !isSpinning() &&
+          (
           <div class="flex mt-4">
             <h2 class="text-xl font-bold">Selection: {selectedOption()}</h2>
             <div class="grid align-middle px-2">
-              {optionsList().includes(selectedOption()!) &&
+              {
+                optionsList().includes(selectedOption()!) &&
         
             <button
               title={`remove ${selectedOption()}`}
@@ -231,7 +233,8 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
                 handleDeleteOption(e, selectedOptionIndex()!)
               }}
             >
-              <RiSystemCloseFill size="20px" class="border-2 transition-colors border-red-500 bg-red-500 hover:bg-red-700 hover:border-red-700 text-white rounded-lg" />
+              <div class="flex border-2 border-red-400 align-middle rounded-md pr-1 text-white bg-red-400 hover:bg-red-700 hover:border-red-700">
+              <div class="grid place-items-center p-0"><RiSystemCloseFill size="20px"/></div>Remove</div>
             </button>}
             </div>
           </div>
@@ -255,7 +258,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           setPageTitle={setPageTitle}
         />
       </div>
-      {winnerList().length > 0 && <div class="absolute top-10 left-10 border-2 w-[200px] p-2 rounded-md">
+      {winnerList().length > 0 && <div class="absolute top-10 left-10 border-2 w-[200px] p-2 rounded-md bg-white shadow-lg">
         <p class="text-lg">History (Last 35)</p>
         <hr />
         <ul class={`list-decimal list-inside ${(winnerList().length > 25) ? "text-xs": "text-sm"}`}>
@@ -266,7 +269,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         <hr />
         <div class="flex justify-end">
           <button
-            class="my-2 px-2 rounded-md border-2 border-blue-500 hover:bg-blue-500 text-blue-500 hover:text-white"
+            class="my-2 px-2 rounded-md border-2 border-blue-500 bg-blue-500 text-white hover:bg-blue-700  hover:border-blue-700"
             onClick={(e) => {
               setWinnerList([])
             }}
@@ -275,7 +278,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
           </button>
         </div>
       </div>}
-      <div id="confetti" class="absolute top-0 left-0 h-[600px] w-full" hidden={!showConfetti()}>{showConfetti() && (<div class="flex"><ConfettiExplosion duration={3000} stageWidth={3200} /><ConfettiExplosion duration={2000} force={0.3} stageWidth={3200} /></div>)}</div>
+      <div id="confetti" class="absolute top-0 left-0 h-full w-full overflow-hidden" hidden={!showConfetti()}>{showConfetti() && (<div class="flex"><ConfettiExplosion duration={3000} stageWidth={3200} /><ConfettiExplosion duration={2000} force={0.3} stageWidth={3200} /></div>)}</div>
     </div>
   );
 };
