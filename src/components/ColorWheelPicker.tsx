@@ -258,7 +258,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
       {winnerList().length > 0 && <div class="absolute top-10 left-10 border-2 w-[200px] p-2 rounded-md">
         <p class="text-lg">History (Last 35)</p>
         <hr />
-        <ul class="list-decimal list-inside">
+        <ul class="list-decimal list-inside text-sm">
           {winnerList().map((winner) => {
             return (<li>{winner}</li>)
           })}
