@@ -142,7 +142,7 @@ export const OptionForm: Component<OptionFormProps> = (props: OptionFormProps) =
                 </table>
 
             </div>
-            <p class="text-sm text-gray-500">Note: You can add more than 1 at a time by using commas to separate values. eg: 1,2,3,4,5</p>
+            <p class="text-sm text-gray-500">Note: You can add more than 1 at a time by using commas to separate values. eg: 1,2,3,4,5&lt;enter&gt;</p>
         </div>
     );
 };
