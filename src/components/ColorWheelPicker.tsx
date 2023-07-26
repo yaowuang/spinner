@@ -280,9 +280,9 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
       </div>}
       <div id="confetti" class="absolute top-0 left-0 h-full w-full overflow-hidden" hidden={!showConfetti()}>{showConfetti() && (<div class="flex"><ConfettiExplosion duration={3000} stageWidth={3200} /><ConfettiExplosion duration={2000} force={0.3} stageWidth={3200} /></div>)}</div>
       { showHelp() ?
-      <div id="help" class="absolute top-10 right-10 border-2 rounded-md shadow-lg w-[250px] p-4">
+      <div id="help" class="absolute top-10 right-10 border-2 rounded-md shadow-lg w-[250px] p-4 bg-white">
         <div class="grid grid-cols-2 w-full">
-        <h2 class="text-lg">Information</h2>
+        <h2 class="text-lg">Help</h2>
         <div class="pb-2 flex justify-end">
                 <RiSystemCloseFill
                     size="18px"
@@ -296,6 +296,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         <hr />
         <div class="text-sm">
         <p class="text-sm">This color wheel was designed with teachers and classrooms in mind. After configuring your color wheel, you can bookmark it. No settings are saved on our server. Opening the bookmark will open this page with the settings at the time of bookmarking.</p>
+        <p>If you want the options to win once, the <i>Remove</i> button will remove the option from the wheel. Reloading the bookmark will restore all removed options.</p>
         <p>Since this is expected to be used in classrooms, this application will stay ad free, and no data will be collected by our servers other than visits counts. If you enjoy using this and support its ideals, you can show your support by <a class="text-blue-500 hover:text-blue-700" href="https://www.buymeacoffee.com/sslidss">buying the developer a coffee!</a></p>
         </div>
       </div> : <div class="absolute top-10 right-10">
@@ -303,6 +304,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         onclick={() => {
           setShowHelp(true);
         }}
+        title="Help"
       >
         <div class="border-2 rounded-md p-2 bg-green-500 fill-white border-green-500 hover:border-green-700 hover:bg-green-700">
           <FaSolidQuestion /></div></button></div>
