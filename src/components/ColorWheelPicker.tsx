@@ -16,11 +16,11 @@ interface ColorWheelPickerProps {
 
 export const Colors = {
   red: "#ee7777",
-  green: "#77ee77",
+  green: "#80e080",
   blue: "#7777ee",
-  cyan: "#77eeee",
-  magenta: "#ee77ee",
-  yellow: "#eeee77",
+  cyan: "#88dddd",
+  magenta: "#dd88dd",
+  yellow: "#dddd88",
   orange: "#eea577",
 };
 
