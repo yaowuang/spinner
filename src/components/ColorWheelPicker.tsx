@@ -296,7 +296,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         <hr />
         <div class="text-sm">
         <p class="text-sm">This color wheel was designed with teachers and classrooms in mind. After configuring your color wheel, you can bookmark it. No settings are saved on our server. Opening the bookmark will open this page with the settings at the time of bookmarking.</p>
-        <p>If you want the options to win once, the <i>Remove</i> button will remove the option from the wheel. Reloading the bookmark will restore all removed options.</p>
+        <p>If you want the option to win once, the <i>Remove</i> button will remove the option from the wheel. Reloading the bookmark will restore all removed options.</p>
         <p>Since this is expected to be used in classrooms, this application will stay ad free, and no data will be collected by our servers other than visits counts. If you enjoy using this and support its ideals, you can show your support by <a class="text-blue-500 hover:text-blue-700" href="https://www.buymeacoffee.com/sslidss">buying the developer a coffee!</a></p>
         </div>
       </div> : <div class="absolute top-10 right-10">
