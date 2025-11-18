@@ -1,19 +1,29 @@
-import { Router, } from '@solidjs/router';
+/**
+ * App - Root application component
+ * Sets up routing, analytics, and main layout
+ */
+
+import { Router } from '@solidjs/router';
 import { Component, createSignal } from 'solid-js';
 import { ColorWheelPicker } from './components/ColorWheelPicker';
-import { inject } from '@vercel/analytics'
+import { inject } from '@vercel/analytics';
 
+/**
+ * Root component for the Color Wheel Picker application
+ * Initializes Vercel Analytics and manages page-level state
+ */
 const App: Component = () => {
-	inject();
-	const [pageTitle, setPageTitle] = createSignal("Random Color Wheel Picker")
-		return (
-			<Router>
-			<div class="grid place-items-center h-[600px] mt-4">
-				<p class="text-center text-xl">{pageTitle()}</p>
-				<ColorWheelPicker pageTitle={pageTitle} setPageTitle={setPageTitle} /> 
-			</div>
-			</Router>
-		    );
+  // Initialize analytics
+  inject();
+
+  // Page title state - used for dynamic title updates
+  const [pageTitle, setPageTitle] = createSignal('Random Color Wheel Picker');
+
+  return (
+    <Router>
+      <ColorWheelPicker pageTitle={pageTitle} setPageTitle={setPageTitle} />
+    </Router>
+  );
 };
 
 export default App;
