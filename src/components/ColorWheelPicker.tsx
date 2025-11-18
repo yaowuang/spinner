@@ -269,7 +269,6 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
       <header class="bg-gradient-to-r from-green-500 to-blue-500 text-white p-4 shadow-md">
         <div class="flex justify-between items-center max-w-7xl mx-auto">
           <div class="flex items-center gap-3">
-            <span class="text-3xl">🎡</span>
             <h1 class="text-2xl md:text-3xl font-bold">Random Color Wheel</h1>
           </div>
           <div class="flex gap-2">
