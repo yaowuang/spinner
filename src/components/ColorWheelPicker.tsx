@@ -50,7 +50,7 @@ const ColorWheelBoard: Component<ColorBoardProps> = (props: ColorBoardProps) => 
 
   return (<div
     id="color-wheel"
-    class={`aspect-square h-[300px] sm:h-[400px] md:h-[${WHEEL_CONFIG.WHEEL_SIZE}px] rounded-full border-4 border-gray-600 transform origin-center shadow-lg`}
+    class="aspect-square h-[300px] sm:h-[400px] md:h-[500px] rounded-full border-4 border-gray-600 transform origin-center shadow-lg"
     style={{ background: conicGradient() }}
   >
     {options() ? options().map((option: string, index) => {
@@ -60,9 +60,29 @@ const ColorWheelBoard: Component<ColorBoardProps> = (props: ColorBoardProps) => 
 
       return (
         <div key={`segment-${index}`}>
+          {/* Responsive sector lines: 150px mobile, 200px tablet, 250px desktop */}
           <div
-            class="absolute top-1/2 left-1/2 w-[250px] h-0 border-t-[2px] border-gray-600 m-0 p-0"
+            class="absolute top-1/2 left-1/2 h-0 border-t-[2px] border-gray-600 m-0 p-0"
             style={{
+              width: '150px',
+              transform: `translate(-50%, -50%) rotate(${segmentAngle - 90}deg) translate(75px)`,
+            }}
+          >
+            &nbsp;
+          </div>
+          <div
+            class="absolute top-1/2 left-1/2 h-0 border-t-[2px] border-gray-600 m-0 p-0 hidden sm:block md:hidden"
+            style={{
+              width: '200px',
+              transform: `translate(-50%, -50%) rotate(${segmentAngle - 90}deg) translate(100px)`,
+            }}
+          >
+            &nbsp;
+          </div>
+          <div
+            class="absolute top-1/2 left-1/2 h-0 border-t-[2px] border-gray-600 m-0 p-0 hidden md:block"
+            style={{
+              width: '250px',
               transform: `translate(-50%, -50%) rotate(${segmentAngle - 90}deg) translate(125px)`,
             }}
           >
@@ -109,6 +129,7 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
   const [showSettings, setShowSettings] = createSignal(false);
   const [showConfetti, setShowConfetti] = createSignal(false);
   const [showHelp, setShowHelp] = createSignal(false);
+  const [showHistory, setShowHistory] = createSignal(false);
   const [toasts, setToasts] = createSignal<ToastMessage[]>([]);
 
   // URL params for state persistence
@@ -278,13 +299,15 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
       </header>
 
       {/* Main Content */}
-      <main class="flex-1 flex flex-col items-center justify-center p-4 md:p-6">
+      <main class="flex-1 flex flex-col items-center justify-center p-4 md:p-6 overflow-hidden">
         <div class="relative m-5 flex flex-col items-center gap-6">
-          {/* Color Wheel */}
+          {/* Color Wheel with Arrow */}
           <div class="relative">
-            <ColorWheelBoard options={optionsList} radius={WHEEL_CONFIG.RADIUS} />
+            <div class="relative inline-block overflow-hidden">
+              <ColorWheelBoard options={optionsList} radius={WHEEL_CONFIG.RADIUS} />
+            </div>
             <ImArrowLeft
-              class="absolute -right-6 top-1/2 fill-red-500 stroke-yellow-400 stroke-1 hidden sm:block"
+              class="absolute -right-6 sm:-right-6 top-1/2 fill-red-500 stroke-yellow-400 stroke-1"
               style={{ transform: "translate(0, -50%)" }}
               size="40px"
               aria-hidden="true"
@@ -361,31 +384,72 @@ export const ColorWheelPicker: Component<ColorWheelPickerProps> = (props: ColorW
         </>
       )}
 
-      {/* Winner History Panel */}
-      {winnerList().length > 0 && (
-        <div class="fixed bottom-4 left-4 max-h-96 w-64 md:w-80 p-4 rounded-xl bg-white border-2 border-gray-200 shadow-xl z-30 flex flex-col">
-          <h2 class="text-lg font-bold text-gray-800 mb-2">Selection History</h2>
-          <p class="text-xs text-gray-500 mb-3">Last {Math.min(winnerList().length, WHEEL_CONFIG.HISTORY_MAX_ITEMS)} selections</p>
-          <ul
-            class="list-decimal list-inside space-y-1 flex-1 overflow-y-auto text-sm"
-            aria-label="Last selected winners"
+      {/* History Toggle Button - On Desktop Side, On Mobile Bottom */}
+      {winnerList().length > 0 && !showHistory() && (
+        <button
+          onClick={() => setShowHistory(true)}
+          class="fixed bottom-4 left-4 sm:bottom-auto sm:top-24 sm:left-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors z-30 shadow-lg"
+          aria-label={`Open selection history (${winnerList().length} items)`}
+        >
+          📋 History ({winnerList().length})
+        </button>
+      )}
+
+      {/* History Modal - Fullscreen on Mobile, Sidebar on Desktop */}
+      {showHistory() && (
+        <>
+          {/* Mobile Backdrop */}
+          <div
+            class="fixed inset-0 bg-black/30 z-40 backdrop-blur-sm sm:hidden"
+            onClick={() => setShowHistory(false)}
+            aria-hidden="true"
+          />
+
+          {/* History Drawer/Modal */}
+          <div
+            class="fixed bottom-0 left-0 right-0 sm:top-24 sm:bottom-auto sm:left-4 sm:right-auto sm:w-80 max-h-[70vh] sm:max-h-96 p-4 rounded-t-xl sm:rounded-xl bg-white border-2 border-gray-200 shadow-2xl z-50 flex flex-col"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="history-title"
           >
-            {winnerList().map((winner) => (
-              <li class="truncate text-gray-700" title={winner}>
-                {winner}
-              </li>
-            ))}
-          </ul>
-          <button
-            aria-label="Clear history list"
-            class="mt-3 w-full px-4 py-2 rounded-lg border-2 border-red-400 bg-red-400 text-white text-sm font-semibold hover:bg-red-500 hover:border-red-500 transition-colors"
-            onClick={() => {
-              setWinnerList([]);
-            }}
-          >
-            Clear History
-          </button>
-        </div>
+            <div class="flex justify-between items-center mb-4">
+              <h2 id="history-title" class="text-lg font-bold text-gray-800">Selection History</h2>
+              <button
+                aria-label="Close history"
+                class="bg-red-400 hover:bg-red-500 text-white border-2 border-red-400 hover:border-red-500 rounded-lg p-1 transition-colors"
+                onclick={() => {
+                  setShowHistory(false);
+                }}
+              >
+                <RiSystemCloseFill size="20px" aria-hidden="true" />
+              </button>
+            </div>
+
+            <p class="text-xs text-gray-500 mb-3">Last {Math.min(winnerList().length, WHEEL_CONFIG.HISTORY_MAX_ITEMS)} selections</p>
+
+            <ul
+              class="list-decimal list-inside space-y-1 flex-1 overflow-y-auto text-sm pr-2"
+              aria-label="Last selected winners"
+            >
+              {winnerList().map((winner) => (
+                <li class="truncate text-gray-700" title={winner}>
+                  {winner}
+                </li>
+              ))}
+            </ul>
+
+            <button
+              aria-label="Clear history list"
+              class="mt-4 w-full px-4 py-2 rounded-lg border-2 border-red-400 bg-red-400 text-white text-sm font-semibold hover:bg-red-500 hover:border-red-500 transition-colors"
+              onClick={() => {
+                setWinnerList([]);
+                setShowHistory(false);
+              }}
+            >
+              Clear History
+            </button>
+          </div>
+        </>
       )}
 
       {/* Confetti Animation */}
